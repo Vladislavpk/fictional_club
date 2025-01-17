@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  laravel:
+    build:
+      context: C:\project\fictional_club
+      dockerfile: C:\project\fictional_club
+    ports:
+      - "8000:8000"
+    volumes:
+      - C:\project\fictional_club:/var/www/html
+    depends_on:
+      - db
+      - mongodb
+
+  # Database
+  db:
+    image: mariadb:11.4
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fc_db
+      MYSQL_PASSWORD: fc_pass
+      MYSQL_USER: fc_user
+
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "8090:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+
+  mongodb:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    volumes:
+      - mongodb_data:/var/lib/mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+volumes:
+  db_data:
+  mongodb_data:
+  
