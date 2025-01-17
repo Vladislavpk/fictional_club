@@ -4,7 +4,7 @@ services:
   laravel:
     build:
       context: C:\project\fictional_club
-      dockerfile: C:\project\fictional_club
+      dockerfile: C:\project\fictional_club\Dockerfile
     ports:
       - "8000:8000"
     volumes:
